@@ -1,4 +1,4 @@
-# parcial_devmob
+# Parcial Desenvolvimento Mobile 20261_AJ322A - Prática Extensionista VIII 20261_HJ422A
 
 Contextualização:
 O projeto de desenvolvimento do aplicativo multiplataforma "Doce Campus" está inserido no contexto do setor de alimentação universitária, tendo como foco de estudo e aplicação uma cantina localizada nas dependências da universidade. O estabelecimento comercial, aqui denominado "Doce Campus" para os fins desta prática extensionista, atende diariamente a um grande volume de clientes, composto majoritariamente por estudantes de graduação e pós-graduação, além de professores e funcionários administrativos da instituição.
