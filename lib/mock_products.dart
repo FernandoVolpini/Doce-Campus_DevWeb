@@ -1,0 +1,68 @@
+import 'product_model.dart';
+
+final List<Product> mockProducts = [
+  Product(
+    id: '1',
+    nome: 'Coxinha',
+    descricao: 'Massa crocante com recheio de frango desfiado.',
+    preco: 7.00,
+    categoria: 'Salgados',
+    imagem: '',
+  ),
+  Product(
+    id: '2',
+    nome: 'Esfiha',
+    descricao: 'Esfiha aberta recheada com carne temperada.',
+    preco: 6.50,
+    categoria: 'Salgados',
+    imagem: '',
+  ),
+  Product(
+    id: '3',
+    nome: 'Brigadeiro',
+    descricao: 'Doce tradicional de chocolate com granulado.',
+    preco: 3.50,
+    categoria: 'Doces',
+    imagem: '',
+  ),
+  Product(
+    id: '4',
+    nome: 'Bolo no pote',
+    descricao: 'Camadas de bolo com recheio cremoso.',
+    preco: 10.00,
+    categoria: 'Doces',
+    imagem: '',
+  ),
+  Product(
+    id: '5',
+    nome: 'Refrigerante',
+    descricao: 'Lata 350ml, sabores variados.',
+    preco: 6.00,
+    categoria: 'Refrigerantes',
+    imagem: '',
+  ),
+  Product(
+    id: '6',
+    nome: 'Suco natural',
+    descricao: 'Suco natural feito na hora.',
+    preco: 8.00,
+    categoria: 'Sucos',
+    imagem: '',
+  ),
+  Product(
+    id: '7',
+    nome: 'Lanche natural',
+    descricao: 'Pão integral com recheio leve e saudável.',
+    preco: 9.00,
+    categoria: 'Lanches Naturais',
+    imagem: '',
+  ),
+  Product(
+    id: '8',
+    nome: 'Trident',
+    descricao: 'Chiclete sabor menta.',
+    preco: 2.50,
+    categoria: 'Guloseimas',
+    imagem: '',
+  ),
+];
