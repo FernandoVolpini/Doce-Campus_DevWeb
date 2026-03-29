@@ -1,6 +1,6 @@
 # parcial_devmob
 
-1. Contextualização
+Contextualização
 O projeto de desenvolvimento do aplicativo multiplataforma "Doce Campus" está inserido no contexto do setor de alimentação universitária, tendo como foco de estudo e aplicação uma cantina localizada nas dependências da universidade. O estabelecimento comercial, aqui denominado "Doce Campus" para os fins desta prática extensionista, atende diariamente a um grande volume de clientes, composto majoritariamente por estudantes de graduação e pós-graduação, além de professores e funcionários administrativos da instituição.
 
 O ambiente de uma cantina universitária é caracterizado por dinâmicas de fluxo muito peculiares. Os períodos de maior movimento concentram-se em janelas de tempo extremamente curtas, geralmente durante os intervalos das aulas e horários de almoço. Nesses momentos de pico, o estabelecimento enfrenta desafios operacionais significativos, como a formação de longas filas no caixa e no balcão de retirada, além da dificuldade em apresentar o cardápio de forma eficiente para dezenas de pessoas simultaneamente. O uso de cardápios físicos de papel ou painéis estáticos tem se mostrado ineficiente, pois sofre desgaste rápido com o manuseio e dificulta a atualização ágil de preços, a inclusão de novos produtos e a remoção de itens esgotados, gerando falhas na comunicação e frustração nos clientes.
