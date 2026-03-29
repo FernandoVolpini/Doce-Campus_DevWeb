@@ -11,106 +11,90 @@ class AboutPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 20),
               const Icon(
-                Icons.info_outline,
-                size: 90,
+                Icons.info_outline_rounded,
+                size: 80,
+                color: Colors.deepPurple,
               ),
-              const SizedBox(height: 20),
-
+              const SizedBox(height: 24),
               const Text(
                 'Doce Campus',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 26,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
-              const SizedBox(height: 10),
-
-              const Text(
-                'Aplicativo de cardápio digital desenvolvido para facilitar a visualização de produtos e realização de pedidos de forma prática e rápida.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
-              ),
-
-              const SizedBox(height: 30),
-
-              const Divider(),
-
-              const SizedBox(height: 10),
-
-              const Text(
-                'Desenvolvedor',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text('Fernando Mogno Volpini'),
-
-              const SizedBox(height: 16),
-
-              const Text(
-                'Curso',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text('Engenharia da Computação'),
-
-              const SizedBox(height: 16),
-
-              const Text(
-                'Instituição',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text('UNAERP'),
-
-              const SizedBox(height: 16),
-
-              const Text(
-                'Disciplina',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text('Desenvolvimento Mobile'),
-
-              const SizedBox(height: 16),
-
-              const Text(
-                'Professor',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const Text('Seu Professor Aqui'),
-
-              const Spacer(),
-
-              const Divider(),
-
-              const SizedBox(height: 10),
-
               const Text(
                 'Versão 1.0.0',
                 textAlign: TextAlign.center,
                 style: TextStyle(
+                  fontSize: 14,
                   color: Colors.grey,
                 ),
+              ),
+              const SizedBox(height: 32),
+              
+              // Seção: Objetivo
+              const Text(
+                'Objetivo do Aplicativo',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'O Doce Campus é um aplicativo multiplataforma que funciona como um cardápio digital universitário. Seu principal objetivo é permitir que os alunos e clientes visualizem os produtos disponíveis no estabelecimento e realizem pedidos de forma rápida, prática e intuitiva.',
+                style: TextStyle(fontSize: 16, height: 1.5),
+              ),
+              const SizedBox(height: 32),
+              
+              // Seção: Equipe
+              const Text(
+                'Equipe de Desenvolvimento',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const ListTile(
+                leading: Icon(Icons.person),
+                title: Text('[Fernando Mogno Volpini - RA: 840608]'),
+                contentPadding: EdgeInsets.zero,
+              ),
+              
+              
+              
+              const SizedBox(height: 32),
+              const Divider(),
+              const SizedBox(height: 16),
+              
+              // Seção: Instituição
+              const Text(
+                'Universidade de Ribeirão Preto (UNAERP)',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                'Engenharia da Computação - 2026',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Projeto Prático - Desenvolvimento Mobile 20261_AJ322A e Prática Extensionista VIII 20261_HJ422A',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
               ),
             ],
           ),

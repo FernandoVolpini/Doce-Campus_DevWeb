@@ -1,7 +1,7 @@
 import 'product_model.dart';
 
 final List<Product> mockProducts = [
-  Product(
+  const Product(
     id: '1',
     nome: 'Coxinha',
     descricao: 'Massa crocante com recheio de frango desfiado.',
@@ -9,7 +9,7 @@ final List<Product> mockProducts = [
     categoria: 'Salgados',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '2',
     nome: 'Esfiha',
     descricao: 'Esfiha aberta recheada com carne temperada.',
@@ -17,7 +17,7 @@ final List<Product> mockProducts = [
     categoria: 'Salgados',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '3',
     nome: 'Brigadeiro',
     descricao: 'Doce tradicional de chocolate com granulado.',
@@ -25,7 +25,7 @@ final List<Product> mockProducts = [
     categoria: 'Doces',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '4',
     nome: 'Bolo no pote',
     descricao: 'Camadas de bolo com recheio cremoso.',
@@ -33,7 +33,7 @@ final List<Product> mockProducts = [
     categoria: 'Doces',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '5',
     nome: 'Refrigerante',
     descricao: 'Lata 350ml, sabores variados.',
@@ -41,7 +41,7 @@ final List<Product> mockProducts = [
     categoria: 'Refrigerantes',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '6',
     nome: 'Suco natural',
     descricao: 'Suco natural feito na hora.',
@@ -49,7 +49,7 @@ final List<Product> mockProducts = [
     categoria: 'Sucos',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '7',
     nome: 'Lanche natural',
     descricao: 'Pão integral com recheio leve e saudável.',
@@ -57,7 +57,7 @@ final List<Product> mockProducts = [
     categoria: 'Lanches Naturais',
     imagem: '',
   ),
-  Product(
+  const Product(
     id: '8',
     nome: 'Trident',
     descricao: 'Chiclete sabor menta.',

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'cart_controller.dart';
+import 'home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController telefoneController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
   final TextEditingController confirmarSenhaController = TextEditingController();
+  final RegExp emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
@@ -47,6 +50,24 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
+    if (!emailRegex.hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Informe um e-mail valido.'),
+        ),
+      );
+      return;
+    }
+
+    if (senha.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('A senha deve ter pelo menos 6 caracteres.'),
+        ),
+      );
+      return;
+    }
+
     if (senha != confirmarSenha) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -56,10 +77,14 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Cadastro em desenvolvimento.'),
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          cartController: CartController(),
+        ),
       ),
+      (route) => false,
     );
   }
 

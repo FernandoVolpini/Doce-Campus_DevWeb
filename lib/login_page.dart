@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'cart_controller.dart';
+import 'home_page.dart';
 import 'register_page.dart';
 import 'forgot_password_page.dart';
 
@@ -12,6 +14,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
+
+  final RegExp emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
   bool obscurePassword = true;
 
@@ -35,9 +39,21 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Login em desenvolvimento.'),
+    if (!emailRegex.hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Informe um e-mail válido.'),
+        ),
+      );
+      return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          cartController: CartController(),
+        ),
       ),
     );
   }
@@ -52,13 +68,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _irParaRecuperacaoSenha() {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const ForgotPasswordPage(),
-    ),
-  );
-}
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ForgotPasswordPage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -14,7 +14,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  void _confirmarPedido() {
+  Future<void> _confirmarPedido() async {
     if (widget.cartController.carrinhoVazio) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -24,7 +24,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       return;
     }
 
-    showDialog(
+    final bool? confirmar = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Confirmar pedido'),
@@ -32,26 +32,33 @@ class _CheckoutPageState extends State<CheckoutPage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, false);
             },
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
             onPressed: () {
-              widget.cartController.limparCarrinho();
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Pedido realizado com sucesso!'),
-                ),
-              );
-              Navigator.pop(context);
+              Navigator.pop(context, true);
             },
             child: const Text('Confirmar'),
           ),
         ],
       ),
     );
+
+    if (confirmar != true || !mounted) {
+      return;
+    }
+
+    widget.cartController.limparCarrinho();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Pedido realizado com sucesso!'),
+      ),
+    );
+
+    Navigator.pop(context);
   }
 
   @override
