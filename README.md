@@ -1,5 +1,9 @@
 # Parcial Desenvolvimento Mobile 20261_AJ322A - Prática Extensionista VIII 20261_HJ422A
 
+# Endereço do aplicativo publicado: 
+ https://parcialdevmob.web.app
+
+
 # Introdução
 
 O avanço das tecnologias digitais tem transformado de maneira significativa a forma como serviços são oferecidos e consumidos em diferentes setores da sociedade, inclusive no ambiente universitário. Nesse contexto, a busca por soluções tecnológicas que promovam maior praticidade, agilidade e eficiência no atendimento torna-se cada vez mais necessária, especialmente em espaços que recebem grande fluxo de pessoas em períodos curtos de tempo, como é o caso das cantinas instaladas em instituições de ensino superior.
