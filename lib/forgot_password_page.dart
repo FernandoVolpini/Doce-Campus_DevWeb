@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'auth_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -9,7 +11,9 @@ class ForgotPasswordPage extends StatefulWidget {
 
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController emailController = TextEditingController();
-  final RegExp emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  final AuthService authService = AuthService();
+
+  bool carregando = false;
 
   @override
   void dispose() {
@@ -17,7 +21,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     super.dispose();
   }
 
-  void _enviarRecuperacao() {
+  Future<void> _enviarRecuperacao() async {
     final email = emailController.text.trim();
 
     if (email.isEmpty) {
@@ -29,22 +33,45 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       return;
     }
 
-    if (!emailRegex.hasMatch(email)) {
+    setState(() {
+      carregando = true;
+    });
+
+    try {
+      await authService.recuperarSenha(email: email);
+
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Informe um e-mail valido.'),
+          content: Text('E-mail de recuperação enviado com sucesso.'),
         ),
       );
-      return;
+    } on FirebaseAuthException catch (e) {
+      final mensagem = authService.tratarErroAuth(e);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(mensagem),
+        ),
+      );
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao enviar recuperação.'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          carregando = false;
+        });
+      }
     }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Instrucoes de recuperacao enviadas para $email.'),
-      ),
-    );
-
-    emailController.clear();
   }
 
   void _voltarParaLogin() {
@@ -82,9 +109,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               const Text(
                 'Digite seu e-mail cadastrado para receber as instruções de recuperação.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
               TextField(
@@ -101,8 +126,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _enviarRecuperacao,
-                  child: const Text('Enviar'),
+                  onPressed: carregando ? null : _enviarRecuperacao,
+                  child: carregando
+                      ? const CircularProgressIndicator()
+                      : const Text('Enviar'),
                 ),
               ),
               const SizedBox(height: 16),

@@ -23,7 +23,7 @@ class AboutPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Doce Campus',
+                'SonhoDoce - Cardápio Digital Universitário',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 28,

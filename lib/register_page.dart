@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'cart_controller.dart';
+import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
+import 'auth_service.dart';
+import 'cart_controller.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -15,10 +18,13 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController telefoneController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
   final TextEditingController confirmarSenhaController = TextEditingController();
-  final RegExp emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+
+  final AuthService authService = AuthService();
+  final CartController cartController = CartController();
 
   bool obscurePassword = true;
   bool obscureConfirmPassword = true;
+  bool carregando = false;
 
   @override
   void dispose() {
@@ -30,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _cadastrar() {
+  Future<void> _cadastrar() async {
     final nome = nomeController.text.trim();
     final email = emailController.text.trim();
     final telefone = telefoneController.text.trim();
@@ -50,19 +56,10 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    if (!emailRegex.hasMatch(email)) {
+    if (!email.contains('@') || !email.contains('.')) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Informe um e-mail valido.'),
-        ),
-      );
-      return;
-    }
-
-    if (senha.length < 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('A senha deve ter pelo menos 6 caracteres.'),
+          content: Text('Digite um e-mail válido.'),
         ),
       );
       return;
@@ -77,15 +74,65 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(
-          cartController: CartController(),
+    setState(() {
+      carregando = true;
+    });
+
+    try {
+      await authService.cadastrar(
+        email: email,
+        senha: senha,
+      );
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Conta criada com sucesso!'),
         ),
-      ),
-      (route) => false,
-    );
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            cartController: cartController,
+          ),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        debugPrint('ERRO CADASTRO FIREBASE: ${e.code} | ${e.message}');
+      }
+
+      final mensagem = authService.tratarErroAuth(e);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(mensagem),
+        ),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('ERRO GERAL CADASTRO: $e');
+      }
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao criar conta.'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          carregando = false;
+        });
+      }
+    }
   }
 
   void _voltarParaLogin() {
@@ -112,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Cadastre-se no Doce Campus',
+                'Cadastre-se no SonhoDoce',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -123,9 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const Text(
                 'Crie sua conta para acessar o cardápio digital',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
               TextField(
@@ -209,8 +254,14 @@ class _RegisterPageState extends State<RegisterPage> {
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _cadastrar,
-                  child: const Text('Cadastrar'),
+                  onPressed: carregando ? null : _cadastrar,
+                  child: carregando
+                      ? const SizedBox(
+                          height: 22,
+                          width: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Cadastrar'),
                 ),
               ),
               const SizedBox(height: 16),

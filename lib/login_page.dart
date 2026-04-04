@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'cart_controller.dart';
-import 'home_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'register_page.dart';
 import 'forgot_password_page.dart';
+import 'home_page.dart';
+import 'auth_service.dart';
+import 'cart_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,9 +18,11 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
 
-  final RegExp emailRegex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+  final AuthService authService = AuthService();
+  final CartController cartController = CartController();
 
   bool obscurePassword = true;
+  bool carregando = false;
 
   @override
   void dispose() {
@@ -26,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void _entrar() {
+  Future<void> _entrar() async {
     final email = emailController.text.trim();
     final senha = senhaController.text.trim();
 
@@ -39,23 +44,54 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    if (!emailRegex.hasMatch(email)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Informe um e-mail válido.'),
+    setState(() {
+      carregando = true;
+    });
+
+    try {
+      await authService.entrar(
+        email: email,
+        senha: senha,
+      );
+
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            cartController: cartController,
+          ),
         ),
       );
-      return;
-    }
+    } on FirebaseAuthException catch (e) {
+  if (kDebugMode) {
+    print('ERRO LOGIN FIREBASE: ${e.code} | ${e.message}');
+  }
+  final mensagem = authService.tratarErroAuth(e);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(
-          cartController: CartController(),
+  if (!mounted) return;
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(mensagem),
+    ),
+  );
+} catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Erro ao realizar login.'),
         ),
-      ),
-    );
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          carregando = false;
+        });
+      }
+    }
   }
 
   void _irParaCadastro() {
@@ -107,9 +143,7 @@ class _LoginPageState extends State<LoginPage> {
               const Text(
                 'Seu cardápio digital universitário',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
               TextField(
@@ -149,8 +183,10 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: _entrar,
-                  child: const Text('Entrar'),
+                  onPressed: carregando ? null : _entrar,
+                  child: carregando
+                      ? const CircularProgressIndicator()
+                      : const Text('Entrar'),
                 ),
               ),
               const SizedBox(height: 16),
