@@ -82,3 +82,6 @@ O projeto também se destaca por sua aplicabilidade prática, uma vez que não s
 Sob a perspectiva extensionista, o SonhoDoce reforça a importância da utilização do conhecimento acadêmico na resolução de problemas reais da sociedade, promovendo inovação e contribuindo para a melhoria de serviços no ambiente universitário.
 
 Conclui-se, portanto, que o projeto apresenta relevância social, tecnológica e acadêmica, podendo gerar impactos positivos tanto na gestão da cantina quanto na experiência dos usuários, ao oferecer um atendimento mais moderno, eficiente e alinhado às demandas contemporâneas.
+
+#	Imagem (foto) do Cardápio físico do estabelecimento: 
+<img width="940" height="981" alt="image" src="https://github.com/user-attachments/assets/a5d4fee5-e9b2-4eb1-83b2-c1b176ec0f76" />
