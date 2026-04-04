@@ -1,7 +1,11 @@
 # Parcial Desenvolvimento Mobile 20261_AJ322A - Prática Extensionista VIII 20261_HJ422A
 
+# Endereço do Vídeo de demonstração:  
+https://drive.google.com/file/d/1IifvNBAoCh8zTVGAN1eQte0jJbom_7v9/view?usp=sharing
+
 # Endereço do aplicativo publicado: 
  https://parcialdevmob.web.app
+ http://localhost:54247/ 
 
 
 # Introdução
