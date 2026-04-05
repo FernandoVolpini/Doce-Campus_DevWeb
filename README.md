@@ -4,11 +4,14 @@
 https://drive.google.com/file/d/1IifvNBAoCh8zTVGAN1eQte0jJbom_7v9/view?usp=sharing
 https://drive.google.com/file/d/1LhWQxWUT5yWchN2umQw_kHcUoR32wx6_/view?usp=sharing
 
+⸻
+
 # Endereço do aplicativo publicado: 
  https://parcialdevmob.web.app
  
  http://localhost:54247/ 
 
+⸻
 
 # Introdução
 
@@ -21,6 +24,8 @@ Por estar inserida em um ambiente acadêmico dinâmico, a cantina convive com mo
 Além disso, a utilização de cardápios físicos impressos ou painéis fixos apresenta limitações que interferem diretamente na eficiência do serviço, como a dificuldade de atualização de preços, a pouca flexibilidade na inclusão ou remoção de produtos e a comunicação ineficiente de itens indisponíveis.
 
 Diante desse cenário, o aplicativo SonhoDoce surge como uma proposta de intervenção tecnológica voltada à melhoria do atendimento e da comunicação entre a cantina e seu público, oferecendo um cardápio digital acessível, interativo e atualizado em tempo real.
+
+⸻
 
 # Justificativa
 
@@ -46,6 +51,8 @@ Desenvolver um aplicativo multiplataforma denominado SonhoDoce, com a finalidade
 * Melhorar a comunicação entre estabelecimento e clientes;
 * Desenvolver uma solução tecnológica funcional utilizando ferramentas modernas;
 * Aplicar conhecimentos acadêmicos na construção de um sistema real.
+  
+⸻
   
 # Metodologia
 
@@ -73,6 +80,8 @@ Além disso, foi utilizada uma estrutura de organização modular do código, co
 
 Dessa forma, a metodologia adotada articula a observação da realidade, o planejamento tecnológico e a aplicação prática dos conhecimentos adquiridos ao longo da formação acadêmica.
 
+⸻
+
 # Considerações Finais
 
 Diante do exposto, o desenvolvimento do aplicativo SonhoDoce configura-se como uma proposta relevante para a modernização do atendimento em cantinas universitárias, especialmente em contextos caracterizados por grande fluxo de pessoas e necessidade de agilidade no serviço.
@@ -88,7 +97,9 @@ Conclui-se, portanto, que o projeto apresenta relevância social, tecnológica e
 #	Imagem (foto) do Cardápio físico do estabelecimento: 
 <img width="940" height="981" alt="image" src="https://github.com/user-attachments/assets/a5d4fee5-e9b2-4eb1-83b2-c1b176ec0f76" />
 
-# Lógica do Sistema (Foco em Programação)
+⸻
+
+# Lógica do Sistema 
 
 O desenvolvimento do aplicativo SonhoDoce foi estruturado com base em princípios de organização modular e separação de responsabilidades, utilizando o framework Flutter para construção da interface e o Firebase como serviço de backend, especialmente para autenticação de usuários.
 
@@ -113,15 +124,18 @@ De forma geral, o sistema foi desenvolvido seguindo uma arquitetura simples, por
 ![Fluxograma](https://github.com/user-attachments/assets/01e033a3-d85e-4e76-b3ad-aa6991a4a245)
 
 # Resumo da lógica (para você entender rápido)
-	•	main.dart → inicia o app + Firebase
-	•	AuthService → conecta com Firebase
-	•	Login/Register → entrada do usuário
-	•	HomePage → navegação principal
-	•	Categories → organização
-	•	ProductList → filtro de dados
-	•	ProductDetail → detalhes
-	•	CartController → lógica do carrinho
-	•	Checkout → finalização
+
+* main.dart → inicia o app + Firebase
+* AuthService → conecta com Firebase
+* Login/Register → entrada do usuário
+* HomePage → navegação principal
+* Categories → organização
+* ProductList → filtro de dados
+* ProductDetail → detalhes
+* CartController → lógica do carrinho
+* Checkout → finalização
+  
+⸻
  
 # Tecnologias Utilizadas
 
@@ -133,20 +147,27 @@ As principais tecnologias empregadas foram:
 	•	Firebase Authentication: Serviço utilizado para gerenciamento de autenticação de usuários, permitindo login, cadastro e recuperação de senha de forma segura.
 	•	Firebase Hosting: Plataforma utilizada para publicação do sistema na web, possibilitando acesso remoto por meio de um link público.
 	•	FlutterFire CLI: Ferramenta utilizada para integração do Firebase ao projeto Flutter.
+	
+ ⸻
  
 # Arquitetura do Sistema
 
 O sistema SonhoDoce foi desenvolvido com base em uma arquitetura em camadas, visando organização, escalabilidade e facilidade de manutenção. Essa arquitetura permite a separação clara entre responsabilidades, tornando o código mais estruturado e compreensível.
 
 A aplicação está dividida em três camadas principais:
-	•	Camada de Apresentação (UI):
+
+* Camada de Apresentação (UI):
 Responsável pela interface com o usuário, composta pelas páginas desenvolvidas em Flutter, como login, cadastro, página inicial, categorias, produtos, carrinho e checkout. Essa camada gerencia a interação do usuário com o sistema.
-	•	Camada de Lógica de Negócio:
+
+* Camada de Lógica de Negócio:
 Representada pelos controllers e serviços, como o AuthService e o CartController, responsáveis por processar as regras do sistema, gerenciar estados e controlar o fluxo de dados entre interface e backend.
-	•	Camada de Dados:
+
+* Camada de Dados:
 Composta pelos modelos (models), como ProductModel e CartItemModel, além da integração com o Firebase Authentication, responsável pela persistência e validação das informações de usuários.
 
 Essa estrutura garante maior modularidade, permitindo a evolução do sistema com a adição de novas funcionalidades, como banco de dados em tempo real e integração com sistemas externos.
+
+⸻
 
 # ANÁLISE DE REQUISITOS DO SISTEMA
 
@@ -157,8 +178,6 @@ A análise de requisitos representa uma etapa essencial no desenvolvimento de si
 Com base nessa análise, foi proposto o desenvolvimento do aplicativo SonhoDoce (Doce Campus), com o objetivo de digitalizar o acesso ao cardápio, melhorar a organização do atendimento e proporcionar maior eficiência na interação entre usuários e estabelecimento.
 
 A definição dos requisitos foi realizada de forma alinhada à solução implementada, garantindo coerência entre o problema identificado, os objetivos do projeto e as funcionalidades desenvolvidas. Além disso, buscou-se estruturar os requisitos de maneira clara e organizada, permitindo não apenas a compreensão do sistema, mas também sua evolução futura.
-
-⸻
 
 2. Requisitos Funcionais
 
@@ -208,8 +227,6 @@ O sistema deve possibilitar a simulação da finalização do pedido, apresentan
 
 O sistema deve disponibilizar uma tela contendo informações sobre o projeto, contexto acadêmico e desenvolvedor.
 
-⸻
-
 3. Requisitos Não Funcionais
 
 Os requisitos não funcionais definem as características de qualidade do sistema, influenciando diretamente sua eficiência, segurança e usabilidade.
@@ -234,8 +251,6 @@ O código deve ser estruturado de forma modular, facilitando sua manutenção, a
 
 O sistema deve estar disponível em ambiente web, permitindo acesso remoto por meio de link público.
 
-⸻
-
 4. Análise Crítica dos Requisitos
 
 A partir da implementação realizada, observa-se que o sistema apresenta elevada aderência aos requisitos definidos, contemplando as principais funcionalidades propostas no escopo do projeto.
@@ -245,8 +260,6 @@ As telas de autenticação, navegação por categorias, listagem de produtos, vi
 Entretanto, durante a fase de testes e integração, foram identificadas algumas limitações que evidenciam oportunidades de melhoria, especialmente no que se refere à estabilização completa da autenticação via Firebase e à integração total entre todas as etapas do fluxo de compra.
 
 Adicionalmente, a utilização de dados simulados (mock) para os produtos, embora adequada para o desenvolvimento inicial, indica a necessidade de evolução futura para integração com banco de dados real, permitindo maior dinamismo e escalabilidade.
-
-⸻
 
 5. Considerações Finais da Análise
 
