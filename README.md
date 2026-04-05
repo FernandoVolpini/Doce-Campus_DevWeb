@@ -8,7 +8,6 @@ https://drive.google.com/file/d/1LhWQxWUT5yWchN2umQw_kHcUoR32wx6_/view?usp=shari
 
 # Endereço do aplicativo publicado: 
  https://parcialdevmob.web.app
- 
  http://localhost:54247/ 
 
 # ⸻
