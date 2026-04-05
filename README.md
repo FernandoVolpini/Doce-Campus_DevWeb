@@ -4,14 +4,14 @@
 https://drive.google.com/file/d/1IifvNBAoCh8zTVGAN1eQte0jJbom_7v9/view?usp=sharing
 https://drive.google.com/file/d/1LhWQxWUT5yWchN2umQw_kHcUoR32wx6_/view?usp=sharing
 
-⸻
+# ⸻
 
 # Endereço do aplicativo publicado: 
  https://parcialdevmob.web.app
  
  http://localhost:54247/ 
 
-⸻
+# ⸻
 
 # Introdução
 
@@ -25,7 +25,7 @@ Além disso, a utilização de cardápios físicos impressos ou painéis fixos a
 
 Diante desse cenário, o aplicativo SonhoDoce surge como uma proposta de intervenção tecnológica voltada à melhoria do atendimento e da comunicação entre a cantina e seu público, oferecendo um cardápio digital acessível, interativo e atualizado em tempo real.
 
-⸻
+# ⸻
 
 # Justificativa
 
@@ -52,7 +52,7 @@ Desenvolver um aplicativo multiplataforma denominado SonhoDoce, com a finalidade
 * Desenvolver uma solução tecnológica funcional utilizando ferramentas modernas;
 * Aplicar conhecimentos acadêmicos na construção de um sistema real.
   
-⸻
+# ⸻
   
 # Metodologia
 
@@ -80,7 +80,7 @@ Além disso, foi utilizada uma estrutura de organização modular do código, co
 
 Dessa forma, a metodologia adotada articula a observação da realidade, o planejamento tecnológico e a aplicação prática dos conhecimentos adquiridos ao longo da formação acadêmica.
 
-⸻
+# ⸻
 
 # Considerações Finais
 
@@ -97,7 +97,7 @@ Conclui-se, portanto, que o projeto apresenta relevância social, tecnológica e
 #	Imagem (foto) do Cardápio físico do estabelecimento: 
 <img width="940" height="981" alt="image" src="https://github.com/user-attachments/assets/a5d4fee5-e9b2-4eb1-83b2-c1b176ec0f76" />
 
-⸻
+# ⸻
 
 # Lógica do Sistema 
 
@@ -135,7 +135,7 @@ De forma geral, o sistema foi desenvolvido seguindo uma arquitetura simples, por
 * CartController → lógica do carrinho
 * Checkout → finalização
   
-⸻
+# ⸻
  
 # Tecnologias Utilizadas
 
@@ -148,7 +148,7 @@ As principais tecnologias empregadas foram:
 	•	Firebase Hosting: Plataforma utilizada para publicação do sistema na web, possibilitando acesso remoto por meio de um link público.
 	•	FlutterFire CLI: Ferramenta utilizada para integração do Firebase ao projeto Flutter.
 	
- ⸻
+# ⸻
  
 # Arquitetura do Sistema
 
@@ -167,7 +167,7 @@ Composta pelos modelos (models), como ProductModel e CartItemModel, além da int
 
 Essa estrutura garante maior modularidade, permitindo a evolução do sistema com a adição de novas funcionalidades, como banco de dados em tempo real e integração com sistemas externos.
 
-⸻
+# ⸻
 
 # ANÁLISE DE REQUISITOS DO SISTEMA
 
@@ -271,6 +271,8 @@ Dessa forma, conclui-se que o aplicativo SonhoDoce (Doce Campus) apresenta sóli
 
 ![Diagrama de Casos de Uso e Classes](https://github.com/user-attachments/assets/d929a936-2f92-4fdd-8424-49033b91b787)
 
-# Diagrama de Casos de Uso: mostra a interação do usuário com as principais funções do sistema, como login, cadastro, recuperação de senha, navegação por categorias, adição ao carrinho, gerenciamento do carrinho e finalização do pedido.
+# Diagrama de Casos de Uso: 
+mostra a interação do usuário com as principais funções do sistema, como login, cadastro, recuperação de senha, navegação por categorias, adição ao carrinho, gerenciamento do carrinho e finalização do pedido.
 
-# Diagrama de Classes: representa a estrutura lógica do sistema, destacando classes centrais como autenticação, produto, carrinho e páginas principais da aplicação.
+# Diagrama de Classes: 
+representa a estrutura lógica do sistema, destacando classes centrais como autenticação, produto, carrinho e páginas principais da aplicação.
