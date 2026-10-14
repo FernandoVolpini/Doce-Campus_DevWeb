@@ -1,4 +1,10 @@
-# Parcial Desenvolvimento Mobile 20261_AJ322A - Prática Extensionista VIII 20261_HJ422A
+# Prática Extensionista VII 20262_HJ322A
+
+# Integrantes: 
+Fernando Mogno Volpini - RA 840608
+Gabriel Ribeiro Martins - RA 839530
+Pedro Lopes Gaiotto - RA 839597
+Vinicius Henrique de Oliveira - RA 840536
 
 # Endereço do Vídeo de demonstração:  
 https://drive.google.com/file/d/1IifvNBAoCh8zTVGAN1eQte0jJbom_7v9/view?usp=sharing
