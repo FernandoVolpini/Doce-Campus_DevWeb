@@ -22,6 +22,19 @@ http://localhost:54247/
 
 # ⸻
 
+## Executar e validar a versão atual
+
+A integração com o Cloud Firestore está no código em `lib/`: catálogo por categoria, perfil, gravação de pedidos e histórico. A configuração do Firebase, as regras, os índices e os produtos devem estar disponíveis no projeto de destino. Consulte [o guia do backend](BACKEND_README.md) antes de executar ou publicar.
+
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run -d chrome
+```
+
+Para os testes das permissões: `npm ci` e `npm run test:rules` (Node 22 e Java 21). A integração contínua valida o aplicativo e gera uma compilação web sem publicar em produção. O ambiente de validação usa Flutter 3.47.7 (Dart 3.13.5).
+
 # Introdução
 
 O avanço das tecnologias digitais tem transformado de maneira significativa a forma como serviços são oferecidos e consumidos em diferentes setores da sociedade, inclusive no ambiente universitário. Nesse contexto, a busca por soluções tecnológicas que promovam maior praticidade, agilidade e eficiência no atendimento torna-se cada vez mais necessária, especialmente em espaços que recebem grande fluxo de pessoas em períodos curtos de tempo, como é o caso das cantinas instaladas em instituições de ensino superior.
