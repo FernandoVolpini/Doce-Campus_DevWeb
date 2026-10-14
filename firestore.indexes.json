@@ -1,0 +1,18 @@
+{
+  "indexes": [
+    {"collectionGroup": "produtos", "queryScope": "COLLECTION", "fields": [
+      {"fieldPath": "disponivel", "order": "ASCENDING"},
+      {"fieldPath": "categoria", "order": "ASCENDING"},
+      {"fieldPath": "ordem", "order": "ASCENDING"}
+    ]},
+    {"collectionGroup": "produtos", "queryScope": "COLLECTION", "fields": [
+      {"fieldPath": "categoria", "order": "ASCENDING"},
+      {"fieldPath": "ordem", "order": "ASCENDING"}
+    ]},
+    {"collectionGroup": "pedidos", "queryScope": "COLLECTION", "fields": [
+      {"fieldPath": "uid", "order": "ASCENDING"},
+      {"fieldPath": "criadoEm", "order": "DESCENDING"}
+    ]}
+  ],
+  "fieldOverrides": []
+}

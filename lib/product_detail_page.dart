@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'cart_controller.dart';
 import 'product_model.dart';
 
@@ -43,10 +44,7 @@ class ProductDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(produto.nome),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(produto.nome), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),

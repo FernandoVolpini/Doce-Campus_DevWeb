@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 import 'order_service.dart';
 
 /// Exibe o histórico de pedidos do usuário logado,
@@ -10,10 +11,7 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus Pedidos'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Meus Pedidos'), centerTitle: true),
       body: SafeArea(
         child: StreamBuilder<List<Map<String, dynamic>>>(
           stream: OrderService.instance.meusPedidos(),
@@ -24,7 +22,9 @@ class OrderHistoryPage extends StatelessWidget {
 
             if (snapshot.hasError) {
               return Center(
-                child: Text('Erro ao carregar pedidos:\n${snapshot.error}'),
+                child: Text(
+                  'Não foi possível carregar seus pedidos. Tente novamente em instantes.',
+                ),
               );
             }
 
@@ -35,13 +35,18 @@ class OrderHistoryPage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.receipt_long_outlined,
-                        size: 72, color: Colors.grey),
+                    Icon(
+                      Icons.receipt_long_outlined,
+                      size: 72,
+                      color: Colors.grey,
+                    ),
                     SizedBox(height: 16),
                     Text(
                       'Nenhum pedido realizado ainda.',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -53,8 +58,7 @@ class OrderHistoryPage extends StatelessWidget {
               itemCount: pedidos.length,
               itemBuilder: (context, index) {
                 final pedido = pedidos[index];
-                final itens =
-                    (pedido['itens'] as List<dynamic>?) ?? [];
+                final itens = (pedido['itens'] as List<dynamic>?) ?? [];
                 final status = pedido['status'] as String? ?? 'pendente';
                 final total =
                     (pedido['total'] as num?)?.toStringAsFixed(2) ?? '0.00';
@@ -89,7 +93,7 @@ class OrderHistoryPage extends StatelessWidget {
                         final qtd = item['quantidade'] as int? ?? 1;
                         final sub =
                             (item['subtotal'] as num?)?.toStringAsFixed(2) ??
-                                '0.00';
+                            '0.00';
                         return ListTile(
                           dense: true,
                           leading: const Icon(Icons.circle, size: 8),
@@ -98,20 +102,24 @@ class OrderHistoryPage extends StatelessWidget {
                           trailing: Text('R\$ $sub'),
                         );
                       }),
-                      if ((pedido['observacao'] as String?)?.isNotEmpty ==
-                          true)
+                      if ((pedido['observacao'] as String?)?.isNotEmpty == true)
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                           child: Row(
                             children: [
-                              const Icon(Icons.notes, size: 16,
-                                  color: Colors.grey),
+                              const Icon(
+                                Icons.notes,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   pedido['observacao'] as String,
                                   style: const TextStyle(
-                                      fontSize: 13, color: Colors.grey),
+                                    fontSize: 13,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],

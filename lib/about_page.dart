@@ -6,10 +6,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sobre o App'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Sobre o App'), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -25,28 +22,19 @@ class AboutPage extends StatelessWidget {
               const Text(
                 'SonhoDoce - Cardápio Digital Universitário',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
               ),
               const Text(
                 'Versão 1.0.0',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
               const SizedBox(height: 32),
-              
+
               // Seção: Objetivo
               const Text(
                 'Objetivo do Aplicativo',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -54,36 +42,43 @@ class AboutPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16, height: 1.5),
               ),
               const SizedBox(height: 32),
-              
+
               // Seção: Equipe
               const Text(
                 'Equipe de Desenvolvimento',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const ListTile(
                 leading: Icon(Icons.person),
-                title: Text('[Fernando Mogno Volpini - RA: 840608]'),
+                title: Text('Fernando Mogno Volpini - RA 840608'),
                 contentPadding: EdgeInsets.zero,
               ),
-              
-              
-              
+
+              const ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Gabriel Ribeiro Martins - RA 839530'),
+                contentPadding: EdgeInsets.zero,
+              ),
+              const ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Pedro Lopes Gaiotto - RA 839597'),
+                contentPadding: EdgeInsets.zero,
+              ),
+              const ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Vinicius Henrique de Oliveira - RA 840536'),
+                contentPadding: EdgeInsets.zero,
+              ),
               const SizedBox(height: 32),
               const Divider(),
               const SizedBox(height: 16),
-              
+
               // Seção: Instituição
               const Text(
                 'Universidade de Ribeirão Preto (UNAERP)',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               const Text(
                 'Engenharia da Computação - 2026',

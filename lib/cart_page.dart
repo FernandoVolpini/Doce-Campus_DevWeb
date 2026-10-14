@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'cart_controller.dart';
 import 'product_model.dart';
 import 'checkout_page.dart';
@@ -6,10 +7,7 @@ import 'checkout_page.dart';
 class CartPage extends StatefulWidget {
   final CartController cartController;
 
-  const CartPage({
-    super.key,
-    required this.cartController,
-  });
+  const CartPage({super.key, required this.cartController});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -28,28 +26,23 @@ class _CartPageState extends State<CartPage> {
     widget.cartController.removerProduto(produto);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${produto.nome} removido do carrinho.'),
-      ),
+      SnackBar(content: Text('${produto.nome} removido do carrinho.')),
     );
   }
 
   void _finalizarPedido() {
     if (widget.cartController.carrinhoVazio) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Seu carrinho esta vazio.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Seu carrinho está vazio.')));
       return;
     }
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CheckoutPage(
-          cartController: widget.cartController,
-        ),
+        builder: (context) =>
+            CheckoutPage(cartController: widget.cartController),
       ),
     );
   }
@@ -57,10 +50,7 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meu Carrinho'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Meu Carrinho'), centerTitle: true),
       body: SafeArea(
         child: AnimatedBuilder(
           animation: widget.cartController,
@@ -81,7 +71,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        'Seu carrinho esta vazio.',
+                        'Seu carrinho está vazio.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18,
@@ -123,7 +113,8 @@ class _CartPageState extends State<CartPage> {
                                 ),
                                 subtitle: Text(item.produto.descricao),
                                 trailing: IconButton(
-                                  onPressed: () => _removerProduto(item.produto),
+                                  onPressed: () =>
+                                      _removerProduto(item.produto),
                                   icon: const Icon(Icons.delete_outline),
                                 ),
                               ),
@@ -176,7 +167,7 @@ class _CartPageState extends State<CartPage> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Theme.of(context).colorScheme.surfaceContainer,
                     border: const Border(
                       top: BorderSide(color: Colors.black12),
                     ),

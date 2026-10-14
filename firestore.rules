@@ -1,96 +1,51 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'cart_item_model.dart';
-import 'firestore_service.dart';
-
-/// Contém a lógica de negócio para criação e gerenciamento de pedidos.
-class OrderService {
-  OrderService._();
-  static final OrderService instance = OrderService._();
-
-  final FirestoreService _firestore = FirestoreService.instance;
-
-  // ════════════════════════════════════════════════════════════════════════
-  // CRIAR PEDIDO
-  // ════════════════════════════════════════════════════════════════════════
-
-  /// Converte os itens do carrinho em um pedido e salva no Firestore.
-  /// Retorna o ID do pedido criado.
-  ///
-  /// Lança [Exception] se o carrinho estiver vazio ou o usuário não estiver
-  /// autenticado.
-  Future<String> finalizarPedido({
-    required List<CartItem> itens,
-    String? observacao,
-  }) async {
-    if (itens.isEmpty) {
-      throw Exception('Carrinho vazio. Adicione produtos antes de finalizar.');
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function autenticado() { return request.auth != null; }
+    // A claim é definida por um administrador com o Admin SDK, nunca pelo cliente.
+    function admin() { return autenticado() && request.auth.token.admin == true; }
+    function dono(uid) { return autenticado() && request.auth.uid == uid; }
+    function statusValido(status) {
+      return status in ['pendente', 'preparando', 'pronto', 'entregue', 'cancelado'];
     }
-
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      throw Exception('Usuário não autenticado.');
+    function pedidoValido() {
+      let p = request.resource.data;
+      return p.keys().hasAll(['uid', 'email', 'itens', 'total', 'quantidadeTotal', 'status', 'criadoEm'])
+        && p.keys().hasOnly(['uid', 'email', 'itens', 'total', 'quantidadeTotal', 'status', 'criadoEm', 'observacao'])
+        && dono(p.uid)
+        && p.email == request.auth.token.email
+        && p.status == 'pendente'
+        && p.criadoEm == request.time
+        && p.itens is list && p.itens.size() > 0 && p.itens.size() <= 100
+        && p.total is number && p.total > 0 && p.total <= 100000
+        && p.quantidadeTotal is int && p.quantidadeTotal > 0 && p.quantidadeTotal <= 10000
+        && (!('observacao' in p) || (p.observacao is string && p.observacao.size() <= 500));
     }
-
-    // Serializa cada item do carrinho
-    final itensSerialized = itens
-        .map((item) => {
-              'produtoId': item.produto.id,
-              'nome': item.produto.nome,
-              'categoria': item.produto.categoria,
-              'preco': item.produto.preco,
-              'quantidade': item.quantidade,
-              'subtotal': item.subtotal,
-            })
-        .toList();
-
-    final totalPedido = itens.fold<double>(
-      0.0,
-      (soma, item) => soma + item.subtotal,
-    );
-
-    final pedido = {
-      'uid': user.uid,
-      'email': user.email ?? '',
-      'itens': itensSerialized,
-      'total': totalPedido,
-      'quantidadeTotal': itens.fold<int>(0, (s, i) => s + i.quantidade),
-      if (observacao != null && observacao.isNotEmpty)
-        'observacao': observacao,
-    };
-
-    return await _firestore.salvarPedido(pedido);
-  }
-
-  // ════════════════════════════════════════════════════════════════════════
-  // HISTÓRICO
-  // ════════════════════════════════════════════════════════════════════════
-
-  /// Stream dos pedidos do usuário logado.
-  Stream<List<Map<String, dynamic>>> meusPedidos() {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return const Stream.empty();
-    return _firestore.pedidosDoUsuario(uid);
-  }
-
-  // ════════════════════════════════════════════════════════════════════════
-  // FORMATAÇÃO / UTILITÁRIOS
-  // ════════════════════════════════════════════════════════════════════════
-
-  /// Rótulo legível para o status do pedido.
-  static String labelStatus(String status) {
-    switch (status) {
-      case 'pendente':
-        return '⏳ Pendente';
-      case 'preparando':
-        return '👨‍🍳 Preparando';
-      case 'pronto':
-        return '✅ Pronto para retirada';
-      case 'entregue':
-        return '🎉 Entregue';
-      case 'cancelado':
-        return '❌ Cancelado';
-      default:
-        return status;
+    function perfilValido() {
+      let p = request.resource.data;
+      return p.keys().hasAll(['nome', 'email', 'telefone', 'criadoEm'])
+        && p.keys().hasOnly(['nome', 'email', 'telefone', 'criadoEm'])
+        && p.nome is string && p.nome.size() > 0 && p.nome.size() <= 120
+        && p.email == request.auth.token.email
+        && p.telefone is string && p.telefone.size() > 0 && p.telefone.size() <= 30
+        && p.criadoEm == request.time;
+    }
+    match /produtos/{id} {
+      allow read: if autenticado();
+      allow write: if admin();
+    }
+    match /pedidos/{id} {
+      allow create: if pedidoValido();
+      allow read: if dono(resource.data.uid) || admin();
+      allow update: if admin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && statusValido(request.resource.data.status);
+      allow delete: if false;
+    }
+    match /usuarios/{uid} {
+      allow read: if dono(uid);
+      allow create, update: if dono(uid) && perfilValido();
+      allow delete: if false;
     }
   }
 }

@@ -1,24 +1,33 @@
 # Prática Extensionista VII 20262_HJ322A
 
-# Integrantes: 
-Fernando Mogno Volpini - RA 840608
+## Executar e validar a versão atual
 
-Gabriel Ribeiro Martins - RA 839530
+A integração com o Cloud Firestore está no código em `lib/`: catálogo por categoria, perfil, gravação de pedidos e histórico. A configuração do Firebase, as regras, os índices e os produtos devem estar disponíveis no projeto de destino. Consulte [o guia do backend](BACKEND_README.md) antes de executar ou publicar.
 
-Pedro Lopes Gaiotto - RA 839597
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter run -d chrome
+```
 
-Vinicius Henrique de Oliveira - RA 840536
+Para os testes das permissões: `npm ci` e `npm run test:rules` (Node 22 e Java 21). A integração contínua valida o aplicativo e gera uma compilação web sem publicar em produção. O ambiente de validação usa Flutter 3.47.7 (Dart 3.13.5).
 
-# Endereço do Vídeo de demonstração:  
+### Integrantes
+
+- Fernando Mogno Volpini - RA 840608
+- Gabriel Ribeiro Martins - RA 839530
+- Pedro Lopes Gaiotto - RA 839597
+- Vinicius Henrique de Oliveira - RA 840536
+
+# Endereço do Vídeo de demonstração:
 https://drive.google.com/file/d/1IifvNBAoCh8zTVGAN1eQte0jJbom_7v9/view?usp=sharing
 https://drive.google.com/file/d/1LhWQxWUT5yWchN2umQw_kHcUoR32wx6_/view?usp=sharing
 
 # ⸻
 
-# Endereço do aplicativo publicado: 
+# Endereço do aplicativo publicado:
 https://parcialdevmob.web.app
-
-http://localhost:54247/ 
 
 # ⸻
 
@@ -60,9 +69,9 @@ Desenvolver um aplicativo multiplataforma denominado SonhoDoce, com a finalidade
 * Melhorar a comunicação entre estabelecimento e clientes;
 * Desenvolver uma solução tecnológica funcional utilizando ferramentas modernas;
 * Aplicar conhecimentos acadêmicos na construção de um sistema real.
-  
+
 # ⸻
-  
+
 # Metodologia
 
 A metodologia adotada para o desenvolvimento deste projeto baseia-se em uma abordagem aplicada e extensionista, voltada à identificação de um problema real e à construção de uma solução tecnológica viável.
@@ -103,12 +112,12 @@ Sob a perspectiva extensionista, o SonhoDoce reforça a importância da utiliza�
 
 Conclui-se, portanto, que o projeto apresenta relevância social, tecnológica e acadêmica, podendo gerar impactos positivos tanto na gestão da cantina quanto na experiência dos usuários, ao oferecer um atendimento mais moderno, eficiente e alinhado às demandas contemporâneas.
 
-#	Imagem (foto) do Cardápio físico do estabelecimento: 
+#	Imagem (foto) do Cardápio físico do estabelecimento:
 <img width="940" height="981" alt="image" src="https://github.com/user-attachments/assets/a5d4fee5-e9b2-4eb1-83b2-c1b176ec0f76" />
 
 # ⸻
 
-# Lógica do Sistema 
+# Lógica do Sistema
 
 O desenvolvimento do aplicativo SonhoDoce foi estruturado com base em princípios de organização modular e separação de responsabilidades, utilizando o framework Flutter para construção da interface e o Firebase como serviço de backend, especialmente para autenticação de usuários.
 
@@ -118,17 +127,17 @@ O processo de autenticação é gerenciado por uma camada de serviço denominada
 
 Após a autenticação bem-sucedida, o sistema redireciona o usuário para a página inicial (HomePage), que funciona como ponto central de navegação. Nessa tela, o usuário pode acessar as categorias de produtos disponíveis, sendo essa organização fundamental para melhorar a experiência e reduzir o tempo de busca por itens.
 
-A listagem de produtos é construída a partir de uma estrutura de dados previamente definida (ProductModel), que contém atributos como nome, descrição, preço, categoria e imagem. Esses dados são carregados por meio de uma lista mock (mockProducts), que simula um banco de dados durante a fase de desenvolvimento.
+A listagem de produtos é construída a partir de uma estrutura de dados previamente definida (Product), que contém atributos como nome, descrição, preço, categoria e imagem. Na versão integrada, esses dados são carregados da coleção `produtos` do Firestore; a lista mock foi mantida apenas como referência inicial.
 
-Quando o usuário seleciona uma categoria, o sistema executa um filtro na lista de produtos, retornando apenas os itens correspondentes. Esse processo utiliza funções de filtragem sobre listas, demonstrando o uso de lógica condicional e manipulação de coleções em Dart.
+Quando o usuário seleciona uma categoria, o sistema consulta os produtos disponíveis no Firestore e acompanha suas atualizações em tempo real.
 
 Ao selecionar um produto, o usuário é direcionado para a página de detalhes (ProductDetailPage), onde são exibidas informações completas do item e disponibilizada a opção de adicioná-lo ao carrinho.
 
 A gestão do carrinho é controlada por uma camada lógica (CartController), responsável por armazenar, atualizar e remover itens selecionados. Essa estrutura segue o padrão de gerenciamento de estado, garantindo que as alterações realizadas no carrinho sejam refletidas corretamente na interface.
 
-Na etapa final, o usuário pode acessar a página de checkout (CheckoutPage), onde ocorre a simulação do processo de finalização do pedido. Embora ainda não haja integração com sistemas de pagamento, a estrutura foi preparada para futuras expansões.
+Na etapa final, o usuário pode acessar a página de checkout (CheckoutPage), onde o pedido é gravado no Firestore e o carrinho é limpo somente após a confirmação da gravação. Embora ainda não haja integração com sistemas de pagamento, a estrutura foi preparada para futuras expansões.
 
-De forma geral, o sistema foi desenvolvido seguindo uma arquitetura simples, porém eficiente, baseada na separação entre interface (UI), lógica de negócio (controllers/services) e modelos de dados (models). Essa organização facilita a manutenção, escalabilidade e evolução do aplicativo, permitindo a inclusão de novas funcionalidades, como integração com banco de dados real e sistemas de pagamento.
+De forma geral, o sistema foi desenvolvido seguindo uma arquitetura simples, porém eficiente, baseada na separação entre interface (UI), lógica de negócio (controllers/services) e modelos de dados (models). Essa organização facilita a manutenção, escalabilidade e evolução do aplicativo, permitindo a inclusão de novas funcionalidades, como sistemas de pagamento e painel administrativo.
 
 ![Fluxograma](https://github.com/user-attachments/assets/01e033a3-d85e-4e76-b3ad-aa6991a4a245)
 
@@ -143,9 +152,9 @@ De forma geral, o sistema foi desenvolvido seguindo uma arquitetura simples, por
 * ProductDetail → detalhes
 * CartController → lógica do carrinho
 * Checkout → finalização
-  
+
 # ⸻
- 
+
 # Tecnologias Utilizadas
 
 O desenvolvimento do aplicativo SonhoDoce foi realizado utilizando tecnologias modernas amplamente adotadas no mercado de desenvolvimento de software.
@@ -156,9 +165,9 @@ As principais tecnologias empregadas foram:
 	•	Firebase Authentication: Serviço utilizado para gerenciamento de autenticação de usuários, permitindo login, cadastro e recuperação de senha de forma segura.
 	•	Firebase Hosting: Plataforma utilizada para publicação do sistema na web, possibilitando acesso remoto por meio de um link público.
 	•	FlutterFire CLI: Ferramenta utilizada para integração do Firebase ao projeto Flutter.
-	
+
 # ⸻
- 
+
 # Arquitetura do Sistema
 
 O sistema SonhoDoce foi desenvolvido com base em uma arquitetura em camadas, visando organização, escalabilidade e facilidade de manutenção. Essa arquitetura permite a separação clara entre responsabilidades, tornando o código mais estruturado e compreensível.
@@ -172,9 +181,9 @@ Responsável pela interface com o usuário, composta pelas páginas desenvolvida
 Representada pelos controllers e serviços, como o AuthService e o CartController, responsáveis por processar as regras do sistema, gerenciar estados e controlar o fluxo de dados entre interface e backend.
 
 * Camada de Dados:
-Composta pelos modelos (models), como ProductModel e CartItemModel, além da integração com o Firebase Authentication, responsável pela persistência e validação das informações de usuários.
+Composta pelos modelos (models), como Product e CartItem, além da integração com o Firebase Authentication, responsável pela persistência e validação das informações de usuários.
 
-Essa estrutura garante maior modularidade, permitindo a evolução do sistema com a adição de novas funcionalidades, como banco de dados em tempo real e integração com sistemas externos.
+Essa estrutura garante maior modularidade, permitindo a evolução do sistema com a adição de novas funcionalidades, como painel administrativo e integração com sistemas externos.
 
 # ⸻
 
@@ -230,7 +239,7 @@ O sistema deve permitir a visualização dos itens selecionados, bem como a alte
 
 * RF10 — Finalização do pedido
 
-O sistema deve possibilitar a simulação da finalização do pedido, apresentando um resumo das escolhas do usuário.
+O sistema deve apresentar o resumo do pedido, persistir os dados no Firestore e disponibilizar seu histórico ao usuário autenticado.
 
 * RF11 — Tela de informações do aplicativo
 
@@ -268,7 +277,7 @@ As telas de autenticação, navegação por categorias, listagem de produtos, vi
 
 Entretanto, durante a fase de testes e integração, foram identificadas algumas limitações que evidenciam oportunidades de melhoria, especialmente no que se refere à estabilização completa da autenticação via Firebase e à integração total entre todas as etapas do fluxo de compra.
 
-Adicionalmente, a utilização de dados simulados (mock) para os produtos, embora adequada para o desenvolvimento inicial, indica a necessidade de evolução futura para integração com banco de dados real, permitindo maior dinamismo e escalabilidade.
+A versão integrada substitui o catálogo simulado por consultas ao Firestore. Sua operação depende da configuração do banco, dos índices, das regras e do catálogo no ambiente escolhido.
 
 5. Considerações Finais da Análise
 
@@ -276,12 +285,12 @@ A análise de requisitos demonstra que o sistema desenvolvido atende de forma co
 
 O projeto evidencia não apenas a compreensão dos conceitos teóricos relacionados à engenharia de software, mas também a capacidade de aplicá-los na construção de uma solução real, integrada e com potencial de evolução.
 
-Dessa forma, conclui-se que o aplicativo SonhoDoce (Doce Campus) apresenta sólida base funcional e arquitetural, podendo ser expandido com novas funcionalidades, como integração com banco de dados, sistema de pagamentos e gerenciamento administrativo, ampliando ainda mais sua aplicabilidade prática.
+Dessa forma, conclui-se que o aplicativo SonhoDoce (Doce Campus) apresenta sólida base funcional e arquitetural, podendo ser expandido com novas funcionalidades, como sistema de pagamentos e gerenciamento administrativo, ampliando ainda mais sua aplicabilidade prática.
 
 ![Diagrama de Casos de Uso e Classes](https://github.com/user-attachments/assets/d929a936-2f92-4fdd-8424-49033b91b787)
 
-# Diagrama de Casos de Uso: 
+# Diagrama de Casos de Uso:
 mostra a interação do usuário com as principais funções do sistema, como login, cadastro, recuperação de senha, navegação por categorias, adição ao carrinho, gerenciamento do carrinho e finalização do pedido.
 
-# Diagrama de Classes: 
+# Diagrama de Classes:
 representa a estrutura lógica do sistema, destacando classes centrais como autenticação, produto, carrinho e páginas principais da aplicação.

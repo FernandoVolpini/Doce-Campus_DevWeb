@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'cart_controller.dart';
 import 'cart_page.dart';
 import 'product_list_page.dart';
@@ -7,7 +8,7 @@ class CategoriesPage extends StatelessWidget {
   final CartController cartController;
 
   static const List<({IconData icon, String titulo, String descricao})>
-      _categorias = [
+  _categorias = [
     (
       icon: Icons.fastfood_rounded,
       titulo: 'Salgados',
@@ -40,10 +41,7 @@ class CategoriesPage extends StatelessWidget {
     ),
   ];
 
-  const CategoriesPage({
-    super.key,
-    required this.cartController,
-  });
+  const CategoriesPage({super.key, required this.cartController});
 
   void _abrirProdutos(BuildContext context, String categoria) {
     Navigator.push(
@@ -61,9 +59,7 @@ class CategoriesPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CartPage(
-          cartController: cartController,
-        ),
+        builder: (context) => CartPage(cartController: cartController),
       ),
     );
   }
@@ -80,9 +76,7 @@ class CategoriesPage extends StatelessWidget {
         leading: Icon(icon, size: 32),
         title: Text(
           titulo,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(descricao),
         trailing: const Icon(Icons.arrow_forward_ios, size: 18),
@@ -147,26 +141,18 @@ class CategoriesPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12),
-              const Icon(
-                Icons.grid_view_rounded,
-                size: 80,
-              ),
+              const Icon(Icons.grid_view_rounded, size: 80),
               const SizedBox(height: 16),
               const Text(
                 'Escolha uma categoria',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
                 'Explore os produtos disponiveis no cardapio digital.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
               ..._categorias.map(
