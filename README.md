@@ -2,8 +2,11 @@
 
 # Integrantes: 
 Fernando Mogno Volpini - RA 840608
+
 Gabriel Ribeiro Martins - RA 839530
+
 Pedro Lopes Gaiotto - RA 839597
+
 Vinicius Henrique de Oliveira - RA 840536
 
 # Endereço do Vídeo de demonstração:  
