@@ -13,7 +13,7 @@ class AuthService {
   }) async {
     return await _auth.signInWithEmailAndPassword(
       email: email.trim(),
-      password: senha.trim(),
+      password: senha,
     );
   }
 
@@ -23,16 +23,12 @@ class AuthService {
   }) async {
     return await _auth.createUserWithEmailAndPassword(
       email: email.trim(),
-      password: senha.trim(),
+      password: senha,
     );
   }
 
-  Future<void> recuperarSenha({
-    required String email,
-  }) async {
-    await _auth.sendPasswordResetEmail(
-      email: email.trim(),
-    );
+  Future<void> recuperarSenha({required String email}) async {
+    await _auth.sendPasswordResetEmail(email: email.trim());
   }
 
   Future<void> sair() async {

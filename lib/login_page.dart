@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'register_page.dart';
 import 'forgot_password_page.dart';
-import 'home_page.dart';
 import 'auth_service.dart';
-import 'cart_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController senhaController = TextEditingController();
 
   final AuthService authService = AuthService();
-  final CartController cartController = CartController();
 
   bool obscurePassword = true;
   bool carregando = false;
@@ -32,15 +30,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _entrar() async {
+    if (carregando) return;
     final email = emailController.text.trim();
-    final senha = senhaController.text.trim();
+    final senha = senhaController.text;
 
     if (email.isEmpty || senha.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Preencha e-mail e senha.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Preencha e-mail e senha.')));
       return;
     }
 
@@ -49,42 +46,26 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     try {
-      await authService.entrar(
-        email: email,
-        senha: senha,
-      );
+      await authService.entrar(email: email, senha: senha);
 
       if (!mounted) return;
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(
-            cartController: cartController,
-          ),
-        ),
-      );
     } on FirebaseAuthException catch (e) {
-  if (kDebugMode) {
-    print('ERRO LOGIN FIREBASE: ${e.code} | ${e.message}');
-  }
-  final mensagem = authService.tratarErroAuth(e);
+      if (kDebugMode) {
+        debugPrint('ERRO LOGIN FIREBASE: ${e.code} | ${e.message}');
+      }
+      final mensagem = authService.tratarErroAuth(e);
 
-  if (!mounted) return;
-
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(mensagem),
-    ),
-  );
-} catch (e) {
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro ao realizar login.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(mensagem)));
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Erro ao realizar login.')));
     } finally {
       if (mounted) {
         setState(() {
@@ -97,28 +78,21 @@ class _LoginPageState extends State<LoginPage> {
   void _irParaCadastro() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const RegisterPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const RegisterPage()),
     );
   }
 
   void _irParaRecuperacaoSenha() {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const ForgotPasswordPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Doce Campus'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Doce Campus'), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -126,18 +100,12 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 30),
-              const Icon(
-                Icons.cake_rounded,
-                size: 90,
-              ),
+              const Icon(Icons.cake_rounded, size: 90),
               const SizedBox(height: 16),
               const Text(
                 'Bem-vindo ao Doce Campus',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -148,6 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 32),
               TextField(
                 controller: emailController,
+                enabled: !carregando,
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   labelText: 'E-mail',
@@ -159,6 +128,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 16),
               TextField(
                 controller: senhaController,
+                enabled: !carregando,
                 obscureText: obscurePassword,
                 decoration: InputDecoration(
                   labelText: 'Senha',
@@ -172,9 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     },
                     icon: Icon(
-                      obscurePassword
-                          ? Icons.visibility_off
-                          : Icons.visibility,
+                      obscurePassword ? Icons.visibility_off : Icons.visibility,
                     ),
                   ),
                 ),
@@ -191,11 +159,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 16),
               TextButton(
-                onPressed: _irParaCadastro,
+                onPressed: carregando ? null : _irParaCadastro,
                 child: const Text('Criar conta'),
               ),
               TextButton(
-                onPressed: _irParaRecuperacaoSenha,
+                onPressed: carregando ? null : _irParaRecuperacaoSenha,
                 child: const Text('Esqueceu a senha?'),
               ),
             ],

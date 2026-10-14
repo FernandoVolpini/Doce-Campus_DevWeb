@@ -2,14 +2,21 @@ import 'product_model.dart';
 
 class CartItem {
   final Product produto;
-  int quantidade;
+  final int quantidade;
 
-  CartItem({
-    required this.produto,
-    this.quantidade = 1,
-  }) : assert(quantidade > 0, 'A quantidade deve ser maior que zero.');
+  CartItem({required this.produto, this.quantidade = 1}) {
+    if (quantidade < 1) {
+      throw ArgumentError.value(
+        quantidade,
+        'quantidade',
+        'Deve ser maior que zero.',
+      );
+    }
+  }
 
-  double get subtotal => produto.preco * quantidade;
+  int get subtotalEmCentavos => (produto.preco * 100).round() * quantidade;
+
+  double get subtotal => subtotalEmCentavos / 100;
 
   @override
   String toString() {

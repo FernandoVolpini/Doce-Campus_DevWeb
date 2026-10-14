@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '975700299038',
     projectId: 'parcialdevmob',
     storageBucket: 'parcialdevmob.firebasestorage.app',
-    iosClientId: '975700299038-sef1cev8k0t8v46tkc51nn1e6qt1656l.apps.googleusercontent.com',
+    iosClientId:
+        '975700299038-sef1cev8k0t8v46tkc51nn1e6qt1656l.apps.googleusercontent.com',
     iosBundleId: 'com.example.parcialDevmob',
   );
 
@@ -73,7 +74,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '975700299038',
     projectId: 'parcialdevmob',
     storageBucket: 'parcialdevmob.firebasestorage.app',
-    iosClientId: '975700299038-sef1cev8k0t8v46tkc51nn1e6qt1656l.apps.googleusercontent.com',
+    iosClientId:
+        '975700299038-sef1cev8k0t8v46tkc51nn1e6qt1656l.apps.googleusercontent.com',
     iosBundleId: 'com.example.parcialDevmob',
   );
 
@@ -85,5 +87,4 @@ class DefaultFirebaseOptions {
     authDomain: 'parcialdevmob.firebaseapp.com',
     storageBucket: 'parcialdevmob.firebasestorage.app',
   );
-
 }

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
+
 import 'about_page.dart';
 import 'cart_page.dart';
 import 'categories_page.dart';
 import 'cart_controller.dart';
 import 'product_list_page.dart';
+import 'order_history_page.dart';
+import 'auth_service.dart';
 
 class HomePage extends StatelessWidget {
   final CartController cartController;
 
-  const HomePage({
-    super.key,
-    required this.cartController,
-  });
+  const HomePage({super.key, required this.cartController});
 
   void _abrirCategorias(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CategoriesPage(
-          cartController: cartController,
-        ),
+        builder: (context) => CategoriesPage(cartController: cartController),
       ),
     );
   }
@@ -40,9 +38,7 @@ class HomePage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CartPage(
-          cartController: cartController,
-        ),
+        builder: (context) => CartPage(cartController: cartController),
       ),
     );
   }
@@ -50,9 +46,7 @@ class HomePage extends StatelessWidget {
   void _abrirSobre(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const AboutPage(),
-      ),
+      MaterialPageRoute(builder: (context) => const AboutPage()),
     );
   }
 
@@ -63,6 +57,22 @@ class HomePage extends StatelessWidget {
         title: const Text('Doce Campus'),
         centerTitle: true,
         actions: [
+          IconButton(
+            tooltip: 'Sair da conta',
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              try {
+                await AuthService().sair();
+              } catch (_) {
+                if (!context.mounted) return;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Não foi possível sair. Tente novamente.'),
+                  ),
+                );
+              }
+            },
+          ),
           AnimatedBuilder(
             animation: cartController,
             builder: (context, child) {
@@ -112,26 +122,18 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 16),
-              const Icon(
-                Icons.storefront_rounded,
-                size: 90,
-              ),
+              const Icon(Icons.storefront_rounded, size: 90),
               const SizedBox(height: 16),
               const Text(
-                'Bem-vindo ao cardapio digital',
+                'Bem-vindo ao cardápio digital',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Visualize categorias, conheca os produtos e monte seu pedido com praticidade.',
+                'Visualize categorias, conheça os produtos e monte seu pedido com praticidade.',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                ),
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 32),
               Card(
@@ -140,10 +142,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   child: Column(
                     children: const [
-                      Icon(
-                        Icons.cake_rounded,
-                        size: 50,
-                      ),
+                      Icon(Icons.cake_rounded, size: 50),
                       SizedBox(height: 12),
                       Text(
                         'Doces, salgados, bebidas e muito mais.',
@@ -179,6 +178,18 @@ class HomePage extends StatelessWidget {
               SizedBox(
                 height: 55,
                 child: OutlinedButton.icon(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const OrderHistoryPage()),
+                  ),
+                  icon: const Icon(Icons.receipt_long_outlined),
+                  label: const Text('Meus pedidos'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 55,
+                child: OutlinedButton.icon(
                   onPressed: () => _abrirSobre(context),
                   icon: const Icon(Icons.info_outline),
                   label: const Text('Sobre o aplicativo'),
@@ -187,10 +198,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 32),
               const Text(
                 'Destaques',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
               Card(
@@ -215,7 +223,7 @@ class HomePage extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.local_drink_outlined),
                   title: const Text('Bebidas geladas'),
-                  subtitle: const Text('Refrigerantes, sucos e agua'),
+                  subtitle: const Text('Refrigerantes, sucos e água'),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                   onTap: () =>
                       _abrirCategoriaEspecifica(context, 'Refrigerantes'),

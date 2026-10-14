@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'firebase_options.dart';
 import 'login_page.dart';
-import 'home_page.dart';
-import 'cart_controller.dart';
+import 'session_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
@@ -49,20 +47,14 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: Colors.deepPurple,
-        ),
+        style: TextButton.styleFrom(foregroundColor: Colors.deepPurple),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 12,
@@ -70,17 +62,12 @@ class MyApp extends StatelessWidget {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Colors.grey.shade800,
-        contentTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-        ),
+        contentTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
         behavior: SnackBarBehavior.floating,
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
@@ -103,9 +90,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.deepPurple,
           foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -114,9 +99,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 12,
@@ -124,41 +107,54 @@ class MyApp extends StatelessWidget {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Colors.grey.shade900,
-        contentTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-        ),
+        contentTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
         behavior: SnackBarBehavior.floating,
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }
 }
 
-class _AuthWrapper extends StatelessWidget {
+class _AuthWrapper extends StatefulWidget {
   const _AuthWrapper();
+
+  @override
+  State<_AuthWrapper> createState() => _AuthWrapperState();
+}
+
+class _AuthWrapperState extends State<_AuthWrapper> {
+  late final Stream<User?> _authChanges = FirebaseAuth.instance
+      .authStateChanges();
+  String? _activeUid;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+      stream: _authChanges,
       builder: (context, snapshot) {
+        final uid = snapshot.data?.uid;
+        if (snapshot.connectionState != ConnectionState.waiting &&
+            _activeUid != uid) {
+          final previousUid = _activeUid;
+          _activeUid = uid;
+          if (previousUid != null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              }
+            });
+          }
+        }
         if (snapshot.hasError) {
           return Scaffold(
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.error_outline,
-                    size: 80,
-                    color: Colors.red,
-                  ),
+                  const Icon(Icons.error_outline, size: 80, color: Colors.red),
                   const SizedBox(height: 16),
                   Text(
                     'Erro ao inicializar',
@@ -168,7 +164,7 @@ class _AuthWrapper extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(24),
                     child: Text(
-                      snapshot.error.toString(),
+                      'Não foi possível verificar sua sessão. Tente novamente.',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -195,8 +191,7 @@ class _AuthWrapper extends StatelessWidget {
         }
 
         if (snapshot.hasData && snapshot.data != null) {
-          final cartController = CartController();
-          return HomePage(cartController: cartController);
+          return SessionHome(key: ValueKey(snapshot.data!.uid));
         }
 
         return const LoginPage();

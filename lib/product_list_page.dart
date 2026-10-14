@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'cart_controller.dart';
-import 'mock_products.dart';
+import 'firestore_service.dart';
 import 'product_model.dart';
 import 'product_detail_page.dart';
 
+/// Lista de produtos de uma categoria, carregados em tempo real do Firestore.
+/// Exibe o catálogo publicado para a categoria selecionada.
 class ProductListPage extends StatelessWidget {
   final String categoria;
   final CartController cartController;
@@ -33,19 +36,44 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Product> produtosFiltrados = mockProducts
-        .where((produto) => produto.categoria == categoria)
-        .toList()
-      ..sort((a, b) => a.nome.compareTo(b.nome));
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(categoria),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(categoria), centerTitle: true),
       body: SafeArea(
-        child: produtosFiltrados.isEmpty
-            ? Center(
+        // ── StreamBuilder lê o Firestore em tempo real ───────────────────
+        child: StreamBuilder<List<Product>>(
+          stream: FirestoreService.instance.produtosPorCategoria(categoria),
+          builder: (context, snapshot) {
+            // Estado de carregamento
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            // Erro de conexão / permissão
+            if (snapshot.hasError) {
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.cloud_off, size: 64, color: Colors.red),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Não foi possível carregar o cardápio. Tente novamente em instantes.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            final produtos = snapshot.data ?? [];
+
+            // Lista vazia
+            if (produtos.isEmpty) {
+              return Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
@@ -68,67 +96,77 @@ class ProductListPage extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
-            : ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: produtosFiltrados.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 4),
-                itemBuilder: (context, index) {
-                  final produto = produtosFiltrados[index];
+              );
+            }
 
-                  return Card(
-                    elevation: 3,
-                    margin: EdgeInsets.zero,
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.all(16),
-                      leading: CircleAvatar(
-                        radius: 26,
-                        child: Icon(_getCategoryIcon()),
-                      ),
-                      title: Text(
-                        produto.nome,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 8),
-                        child: Text(
-                          produto.descricao,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      trailing: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'R\$ ${produto.preco.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          const Icon(Icons.arrow_forward_ios, size: 16),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ProductDetailPage(
-                              produto: produto,
-                              cartController: cartController,
-                            ),
-                          ),
-                        );
-                      },
+            // Lista de produtos
+            return ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: produtos.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 4),
+              itemBuilder: (context, index) {
+                final produto = produtos[index];
+
+                return Card(
+                  elevation: 3,
+                  margin: EdgeInsets.zero,
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.all(16),
+                    leading: CircleAvatar(
+                      radius: 26,
+                      // Usa imagem de rede se disponível; caso contrário,
+                      // usa ícone da categoria
+                      backgroundImage: produto.imagem.isNotEmpty
+                          ? NetworkImage(produto.imagem)
+                          : null,
+                      child: produto.imagem.isEmpty
+                          ? Icon(_getCategoryIcon())
+                          : null,
                     ),
-                  );
-                },
-              ),
+                    title: Text(
+                      produto.nome,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        produto.descricao,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          'R\$ ${produto.preco.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Icon(Icons.arrow_forward_ios, size: 16),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ProductDetailPage(
+                            produto: produto,
+                            cartController: cartController,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

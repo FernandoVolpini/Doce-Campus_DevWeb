@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'auth_service.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
@@ -25,11 +26,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final email = emailController.text.trim();
 
     if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Informe seu e-mail.'),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Informe seu e-mail.')));
       return;
     }
 
@@ -52,18 +51,14 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(mensagem),
-        ),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(mensagem)));
     } catch (e) {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro ao enviar recuperação.'),
-        ),
+        const SnackBar(content: Text('Erro ao enviar recuperação.')),
       );
     } finally {
       if (mounted) {
@@ -81,10 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Recuperar senha'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Recuperar senha'), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -92,18 +84,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 30),
-              const Icon(
-                Icons.lock_reset_rounded,
-                size: 80,
-              ),
+              const Icon(Icons.lock_reset_rounded, size: 80),
               const SizedBox(height: 16),
               const Text(
                 'Esqueceu sua senha?',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
